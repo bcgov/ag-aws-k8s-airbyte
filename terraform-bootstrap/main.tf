@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "# "# <-- replace with a unique bucket
+  bucket = "terraformstate# 
 
   # Enable versioning
   versioning {
