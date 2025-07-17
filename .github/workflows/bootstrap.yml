@@ -1,0 +1,30 @@
+name: Terraform Bootstrap
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ vars.TERRAFORM_BOOTSTRAP_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init and Apply
+        run: |
+          cd terraform-bootstrap
+          terraform init
+          terraform apply -auto-approve \
+            -var="backend_bucket_name=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" \
+            -var="dynamodb_table_name=terraform-lock" \
+            -var="environment=dev"
