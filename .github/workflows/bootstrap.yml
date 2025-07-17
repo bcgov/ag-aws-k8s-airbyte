@@ -14,7 +14,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ vars.TTERRAFORM_DEPLOY_DEV_ROLE_ARN }}
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Set up Terraform
