@@ -44,10 +44,10 @@ jobs:
 
       - name: Terraform Plan
         run: |
-          cd Terraform/dev
+          cd Terraform/env
           terraform plan -out=tfplan
           
-      - name: Terraform Apply
-        run: |
-          cd Terraform/dev
-          terraform apply tfplan
+      # - name: Terraform Apply
+      #   run: |
+      #     cd Terraform/dev
+      #     terraform apply tfplan
