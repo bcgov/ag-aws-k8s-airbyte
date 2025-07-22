@@ -24,11 +24,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials for dev
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::828865617457:role/github_oidc
-          aws-region: ca-central-1
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
