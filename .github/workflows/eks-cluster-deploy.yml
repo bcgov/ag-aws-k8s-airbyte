@@ -39,7 +39,7 @@ jobs:
 
       - name: Terraform Init
         run: |
-          cd Terraform/dev
+          cd Terraform/env
           terraform init -reconfigure -backend-config="bucket=${{ vars.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
 
       - name: Terraform Plan
