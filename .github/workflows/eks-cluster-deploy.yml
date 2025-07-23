@@ -44,12 +44,8 @@ jobs:
  
       - name: Terraform Init
         run: |
-          terraform init -reconfigure \
-          -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" \
-          -backend-config="key=eks/${{ inputs.environment }}/terraform.tfstate" \
-          -backend-config="region=${{ vars.AWS_REGION }}" \
-          -backend-config="dynamodb_table=terraform-lock" \
-          -backend-config="encrypt=true"
+          terraform init -reconfigure -backend-config="bucket=${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}" -backend-config="region=${{ vars.AWS_REGION }}"
+
 
 
       - name: Terraform Plan
