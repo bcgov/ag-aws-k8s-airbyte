@@ -1,7 +1,7 @@
-variable "eks_admin_iam_arns" {
-  description = "List of IAM ARNs to grant admin access"
-  type        = list(string)
-}
+# variable "eks_admin_iam_arns" {
+#   description = "List of IAM ARNs to grant admin access"
+#   type        = list(string)
+# }
 
 variable "cluster_name" {
   description = "Name of the EKS cluster"
