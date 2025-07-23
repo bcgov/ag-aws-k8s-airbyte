@@ -1,21 +1,21 @@
-resource "aws_iam_group" "eks_admins" {
-  name = "eks-admins"
-}
+# resource "aws_iam_group" "eks_admins" {
+#   name = "eks-admins"
+# }
 
-resource "aws_iam_group_policy_attachment" "eks_cluster_policy" {
-  group      = aws_iam_group.eks_admins.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-}
+# resource "aws_iam_group_policy_attachment" "eks_cluster_policy" {
+#   group      = aws_iam_group.eks_admins.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+# }
 
-resource "aws_iam_group_policy_attachment" "eks_worker_node_policy" {
-  group      = aws_iam_group.eks_admins.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-}
+# resource "aws_iam_group_policy_attachment" "eks_worker_node_policy" {
+#   group      = aws_iam_group.eks_admins.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+# }
 
-resource "aws_iam_group_policy_attachment" "ec2_full_access" {
-  group      = aws_iam_group.eks_admins.name
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
-}
+# resource "aws_iam_group_policy_attachment" "ec2_full_access" {
+#   group      = aws_iam_group.eks_admins.name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+# }
 
 
 ##############################################
