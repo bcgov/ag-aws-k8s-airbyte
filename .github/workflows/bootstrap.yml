@@ -2,6 +2,14 @@ name: Terraform Bootstrap
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'select the environment to deploy'
+        required: true
+        type: choice
+        options:
+        - dev
+        - prod
 
 permissions: 
   id-token: write  
@@ -29,7 +37,12 @@ jobs:
           cd terraform-bootstrap
           terraform init
 
-      - name: Terraform Apply (bootstrap)
+      - name: Terraform Plan (bootstrap)
         run: |
           cd terraform-bootstrap
-          terraform apply -var-file=env/dev.tfvars
+          terraform plan -var-file="env/${{ inputs.environment }}.tfvars" -out=tfplan
+
+      - name: Terraform Apply
+        run: |
+          cd Terraform/dev
+          terraform apply tfplan
