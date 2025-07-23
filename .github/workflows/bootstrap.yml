@@ -37,11 +37,6 @@ jobs:
           cd terraform-bootstrap
           terraform init
 
-      - name: Terraform Plan (bootstrap)
-        run: |
-          cd terraform-bootstrap
-          terraform plan -out=tfplan
-
       - name: Terraform Apply
         run: |
           cd Terraform/dev
