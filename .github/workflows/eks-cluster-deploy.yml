@@ -1,4 +1,4 @@
-name: EKS Deployment
+name: EKS dev-Deployment
 
 on:
   workflow_dispatch:
@@ -8,16 +8,15 @@ on:
         required: true
         type: choice
         options:
-          - dev
-          - prod
-
+        - dev
+        - prod
 permissions: 
   id-token: write  
   contents: read 
 
 jobs:
   terraform:
-    environment: ${{ inputs.environment }}
+    environment: ${{ inputs.env }}
     runs-on: ubuntu-latest
 
     steps:
@@ -25,13 +24,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials for dev
         uses: aws-actions/configure-aws-credentials@v3
         with:
           role-to-assume: ${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
-
-      - name: Setup Node.js
+      
+      - name: setup node.js for terraform 
         uses: actions/setup-node@v3
         with:
           node-version: 20
@@ -63,8 +62,8 @@ jobs:
           cd Terraform
           terraform show tfplan
 
-      - name: Terraform Apply
-        if: github.event.inputs.environment == 'dev' || github.event.inputs.environment == 'prod'
-        run: |
-          cd Terraform
-          terraform apply -auto-approve tfplan
+      # - name: Terraform Apply
+      #   if: github.event.inputs.environment == 'dev' || github.event.inputs.environment == 'prod'
+      #   run: |
+      #     cd Terraform
+      #     terraform apply -auto-approve tfplan
