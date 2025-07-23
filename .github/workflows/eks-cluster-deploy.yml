@@ -46,7 +46,7 @@ jobs:
         run: |
           cd Terraform
           terraform init -reconfigure \
-          -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" \
+          -backend-config="bucket=${{ vars.TERRAFORM_BACKEND_BUCKET }}" \
           -backend-config="key=eks/${{ inputs.environment }}/terraform.tfstate" \
           -backend-config="region=${{ vars.AWS_REGION }}" \
           -backend-config="dynamodb_table=terraform-lock" \
