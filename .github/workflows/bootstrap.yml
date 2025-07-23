@@ -2,14 +2,6 @@ name: Terraform Bootstrap
 
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'select the environment to deploy'
-        required: true
-        type: choice
-        options:
-        - dev
-        - prod
 
 permissions: 
   id-token: write  
@@ -20,24 +12,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           role-to-assume: ${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}
           aws-region: ${{ vars.AWS_REGION }}
 
+      - name: setup node.js for terraform 
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Terraform Init (bootstrap)
+      - name: Terraform Init and Apply
         run: |
           cd terraform-bootstrap
           terraform init
-
-      - name: Terraform Apply
-        run: |
-          cd Terraform/env
-          terraform apply -var-file=dev.tfvars
+          terraform apply -auto-approve \
+            -var="backend_bucket_name=${{ vars.TERRAFORM_BACKEND_BUCKET }}" \
+            -var="dynamodb_table_name=terraform-lock" \
+            -var="environment=dev"
