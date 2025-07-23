@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terraformstate# 
+  bucket = "f4cd18-terraformstate"
 
   # Enable versioning
   versioning {
