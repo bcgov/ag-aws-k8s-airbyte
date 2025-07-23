@@ -39,12 +39,18 @@ jobs:
 
       - name: Inject admin ARN into dev.tfvars
         run: |
-          sed -i "s|<place_holder_arn>|${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}|g" env/dev.tfvars
+          sed -i "s|<place_holder_arn>|${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}|g" Terraform/env/${{ inputs.environment }}.tfvars
 
+ 
       - name: Terraform Init
         run: |
-          cd Terraform
-          terraform init -reconfigure -backend-config="bucket=${{ vars.TERRAFORM_DEV_BACKEND_BUCKET }}" -backend-config="region=${{ vars.AWS_REGION }}"
+          terraform init -reconfigure \
+          -backend-config="bucket=${{ secrets.TERRAFORM_DEV_BACKEND_BUCKET }}" \
+          -backend-config="key=eks/${{ inputs.environment }}/terraform.tfstate" \
+          -backend-config="region=${{ vars.AWS_REGION }}" \
+          -backend-config="dynamodb_table=terraform-lock" \
+          -backend-config="encrypt=true"
+
 
       - name: Terraform Plan
         run: |
