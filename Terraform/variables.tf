@@ -57,3 +57,9 @@ variable "node_ssh_key" {
   description = "SSH key pair name to enable SSH access to the nodes"
   type        = string
 }
+
+variable "aws_region" {
+  description = "AWS region for all resources"
+  type        = string
+  default = ""
+}
