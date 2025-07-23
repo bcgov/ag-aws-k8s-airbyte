@@ -39,5 +39,5 @@ jobs:
 
       - name: Terraform Apply
         run: |
-          cd Terraform/dev
+          cd Terraform/env
           terraform apply -var-file=env/dev.tfvars
