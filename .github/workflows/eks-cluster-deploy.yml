@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   terraform:
-    environment: ${{ inputs.env }}
+    environment: ${{ inputs.environment }}
     runs-on: ubuntu-latest
 
     steps:
@@ -40,7 +40,7 @@ jobs:
 
       - name: Inject admin ARN into tfvars
         run: |
-          sed -i "s|<place_holder_arn>|[\"${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}\"]|g" Terraform/env/${{ inputs.environment }}.tfvars
+          sed -i 's|<place_holder_arn>|["'"${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}"'"]|g' env/${{ inputs.environment }}.tfvars
 
       - name: Terraform Init
         run: |
