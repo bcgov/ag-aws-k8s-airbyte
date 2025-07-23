@@ -41,7 +41,7 @@ jobs:
       - name: Inject admin ARN into tfvars
         run: |
           cd Terraform
-          sed -i 's/<place_holder_arn>/${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}/g' env/${{ inputs.environment }}.tfvars
+          sed -i 's|<place_holder_arn>|arn:aws:iam::828865617457:role/github_oidc|g' env/dev.tfvars
 
       - name: Terraform Init
         run: |
