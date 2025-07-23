@@ -1,12 +1,9 @@
 resource "aws_s3_bucket" "terraform_state" {
   bucket = "f4cd18-terraformstate"
 
-  # Enable versioning
   versioning {
     enabled = true
   }
-
-  # Enable encryption
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
@@ -14,7 +11,6 @@ resource "aws_s3_bucket" "terraform_state" {
       }
     }
   }
-
   tags = {
     Name        = "terraform-state"
     Environment = "shared"
