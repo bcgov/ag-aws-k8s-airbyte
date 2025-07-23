@@ -17,4 +17,6 @@ node_instance_types = ["t3.medium"]
 node_disk_size      = 20
 node_ssh_key        = "your-ssh-keypair-name"
 
-aws_rregion = "ca-central-1"
+aws_region = "ca-central-1"
+
+eks_admin_iam_arns = "<place_holder_arn>"
