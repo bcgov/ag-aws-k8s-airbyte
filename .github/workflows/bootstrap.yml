@@ -40,9 +40,9 @@ jobs:
       - name: Terraform Plan (bootstrap)
         run: |
           cd terraform-bootstrap
-          terraform plan -var-file="env/${{ inputs.environment }}.tfvars" -out=tfplan
+          terraform plan -out=tfplan
 
       - name: Terraform Apply
         run: |
           cd Terraform/dev
-          terraform apply tfplan
+          terraform apply -var-file=env/dev.tfvars
