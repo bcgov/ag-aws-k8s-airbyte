@@ -6,9 +6,9 @@ resource "aws_eks_node_group" "workers" {
   subnet_ids      = var.subnet_ids
 
   scaling_config {
-    desired_size = var.node_group_desired_capacity
-    min_size     = var.node_group_min_capacity
-    max_size     = var.node_group_max_capacity
+    desired_size = var.node_desired_size
+    min_size     = var.node_min_size
+    max_size     = var.node_max_size
   }
 
   instance_types = var.node_instance_types
@@ -21,7 +21,7 @@ resource "aws_eks_node_group" "workers" {
   }
 
   depends_on = [
-    aws_eks_cluster.eks,            // adjust to your cluster resource name
+    aws_eks_cluster.eks,            
     aws_iam_role_policy_attachment.eks_node_AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.eks_node_AmazonEC2ContainerRegistryReadOnly,
     aws_iam_role_policy_attachment.eks_node_AmazonEKS_CNI_Policy,
