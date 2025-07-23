@@ -58,13 +58,8 @@ jobs:
           cd Terraform
           terraform plan -var-file="env/${{ inputs.environment }}.tfvars" -out=tfplan -input=false
 
-      - name: Show Terraform Plan
+      - name: Terraform Apply
+        if: github.event.inputs.environment == 'dev' || github.event.inputs.environment == 'prod'
         run: |
           cd Terraform
-          terraform show tfplan
-
-      # - name: Terraform Apply
-      #   if: github.event.inputs.environment == 'dev' || github.event.inputs.environment == 'prod'
-      #   run: |
-      #     cd Terraform
-      #     terraform apply -auto-approve tfplan
+          terraform apply -auto-approve tfplan
