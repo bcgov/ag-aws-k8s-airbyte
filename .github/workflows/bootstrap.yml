@@ -28,14 +28,12 @@ jobs:
         run: |
           cd terraform-bootstrap
           terraform init
-      # - name: Terraform Apply (bootstrap)
-      #   run: |
-      #     cd terraform-bootstrap
-      #     terraform apply -auto-approve \
-      #       -var="backend_bucket_name=${{ vars.TERRAFORM_BACKEND_BUCKET }}" \
-      #       -var="dynamodb_table_name=terraform-lock" \
-      #       -var="environment=dev"
-      - name: Terraform Init (bootstrap)
+
+          
+      - name: Terraform Apply (bootstrap)
         run: |
           cd terraform-bootstrap
-          terraform destroy -auto-approve
+          terraform apply -auto-approve \
+            -var="backend_bucket_name=${{ vars.TERRAFORM_BACKEND_BUCKET }}" \
+            -var="dynamodb_table_name=terraform-lock" \
+            -var="environment=dev"
