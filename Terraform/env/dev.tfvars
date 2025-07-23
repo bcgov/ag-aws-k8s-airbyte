@@ -20,3 +20,5 @@ node_ssh_key        = "your-ssh-keypair-name"
 aws_region = "ca-central-1"
 
 eks_admin_iam_arns = "<place_holder_arn>"
+
+backend_bucket_name = "f4cd18-dev-terraformstate"
