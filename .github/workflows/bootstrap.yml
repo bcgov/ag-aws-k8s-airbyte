@@ -38,4 +38,4 @@ jobs:
       - name: Terraform Init (bootstrap)
         run: |
           cd terraform-bootstrap
-          terraform destroy
+          terraform destroy -auto-approve
