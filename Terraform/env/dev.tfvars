@@ -18,7 +18,7 @@ node_desired_size       = 2
 node_min_size           = 1
 node_max_size           = 3
 node_instance_types     = ["m7i.large"]
-node_disk_size          = 20
+# node_disk_size          = 20
 node_ssh_key            = "your-ssh-keypair-name"
 node_role_arn          = "arn:aws:iam::828865617457:role/eks-dev-eks-node-group-role"
 
