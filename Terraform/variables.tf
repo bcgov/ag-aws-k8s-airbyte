@@ -96,7 +96,7 @@ variable "db_instance_class" {
 variable "db_allocated_storage" {
   description = "Allocated storage (GB)"
   type        = number
-  default     = ""
+  default     = 
 }
 
 variable "db_engine_version" {
