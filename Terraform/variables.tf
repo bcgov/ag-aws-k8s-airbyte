@@ -105,3 +105,7 @@ variable "db_engine_version" {
   default     = " "
 }
 
+variable "security_group"{
+    description = "securitygroup_id"
+    type = list(string)
+}

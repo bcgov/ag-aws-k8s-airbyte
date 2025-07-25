@@ -38,4 +38,5 @@ db_username = "devusers"
 db_instance_class = "db.t3.micro"
 db_allocated_storage = 20
 db_engine_version = "17.4"
+security_group = ["sg-07d5a42b8cde9e921"]
 

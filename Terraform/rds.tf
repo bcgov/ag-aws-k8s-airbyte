@@ -22,7 +22,7 @@ resource "aws_db_instance" "this" {
   password                = var.db_password
 
   db_subnet_group_name    = aws_db_subnet_group.subgroup.name
-  vpc_security_group_ids  = [ aws_db_subnet_group.subgroup.id]
+  vpc_security_group_ids  = var.security_group
 
 
   multi_az                = false
