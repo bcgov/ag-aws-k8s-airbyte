@@ -1,4 +1,4 @@
-resource "aws_db_subnet_group" "this" {
+resource "aws_db_subnet_group" "subgroup" {
   name       = "${var.environment}-db-subnet-group"
   subnet_ids = var.subnet_ids
 
@@ -17,12 +17,13 @@ resource "aws_db_instance" "this" {
   storage_type            = "gp2"
   storage_encrypted       = true
 
-  name                    = var.db_name
-  username                = var.db_username
-  password                = var.db_password
+  db_name                    = var.db_name
+  db_username                = var.db_username
+  db_password                = var.db_password
 
-  db_subnet_group_name    = aws_db_subnet_group.this.name
-  vpc_security_group_ids  = var.vpc_id
+  db_subnet_group_name    = aws_db_subnet_group.subgroup.name
+  vpc_security_group_ids  = [ aws_db_subnet_group.subgroup.id]
+
 
   multi_az                = false
   publicly_accessible     = false

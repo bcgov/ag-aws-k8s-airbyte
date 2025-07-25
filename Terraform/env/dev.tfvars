@@ -34,7 +34,7 @@ dynamodb_table_name     = "terraform-lock-dev"             # if you made per-env
 
 db_password    = "yourSuperSecretPassword123!"
 db_name = "dev-airbyte-rds"
-dv_username = "devusers"
+db_username = "devusers"
 db_instance_class = "db.t3.micro"
 db_allocated_storage = 20
 db_engine_version = "17.4"
