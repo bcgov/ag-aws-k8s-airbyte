@@ -18,8 +18,8 @@ resource "aws_db_instance" "this" {
   storage_encrypted       = true
 
   db_name                    = var.db_name
-  db_username                = var.db_username
-  db_password                = var.db_password
+  username                = var.db_username
+  password                = var.db_password
 
   db_subnet_group_name    = aws_db_subnet_group.subgroup.name
   vpc_security_group_ids  = [ aws_db_subnet_group.subgroup.id]
@@ -35,7 +35,7 @@ resource "aws_db_instance" "this" {
   }
 
   depends_on = [
-    aws_db_subnet_group.this
+    aws_db_subnet_group.subgroup
   ]
 }
 
