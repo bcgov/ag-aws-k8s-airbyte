@@ -1,0 +1,96 @@
+name: Airbyte Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'select the environment to deploy'
+        required: true
+        type: choice
+        options:
+        - dev
+        - sandbox
+        - prod 
+
+permissions: 
+  id-token: write  
+  contents: read 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials for dev
+        if: ${{ inputs.environment == 'dev' }}
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_DEV_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Configure AWS Credentials for sandbox
+        if: ${{ inputs.environment == 'sandbox' }}
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Configure AWS Credentials for test
+        if: ${{ inputs.environment == 'test' }}
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ vars.TERRAFORM_DEPLOY_TEST_ROLE_ARN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+
+      - name: Update kube config
+        run: aws eks update-kubeconfig --name k8s-airbyte-sandbox --region ${{ vars.AWS_REGION }}
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          helm-version: v3.8.0
+      
+      - name: Install kubectl
+        run: |
+          curl -LO "https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl"
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/kubectl
+          
+      # - name: Replace secrets with repo secrets
+      #   run: |
+      #     sed -i -e "s/<PLACE_HOLDER_KEY>/${{ secrets.LICENSEKEY }}/g" Airbyte/secrets.yml
+      #     sed -i -e "s/<PLACE_ADMIN_PASS>/${{ secrets.ADMINPASSWORD }}/g" Airbyte/secrets.yml
+
+      - name: Create Namespace if not exists
+        run: |
+          kubectl get ns airbyte || kubectl create ns airbyte
+
+      - name: Deploying secrets
+        run: |
+          cd Airbyte
+          kubectl apply -f secrets.yml -n airbyte
+
+      - name: Add Airbyte Helm Chart repository
+        run: |
+          helm repo add airbyte https://airbytehq.github.io/helm-charts
+          helm repo update
+
+
+      - name: Deploy Airbyte on EKS
+        run: |
+          helm upgrade --install airbyte-enterprise airbyte/airbyte --namespace airbyte --values Airbyte/values.yml --timeout 10m0s
+
+
+      # - name: Deploy ALB 
+      #   run: |
+      #     kubectl apply -f Airbyte/alb.yml -n airbyte
+
+
+      # - name: Wait for Airbyte to be deployed
+      #   run: |
+      #     kubectl rollout status deployment/airbyte -n airbyte
+

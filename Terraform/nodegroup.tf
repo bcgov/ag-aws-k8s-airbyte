@@ -2,7 +2,7 @@
 resource "aws_eks_node_group" "workers" {
   cluster_name    = var.cluster_name
   node_group_name = "${var.cluster_name}-${var.environment}-ng"
-  node_role_arn   = aws_iam_role.eks_node_group_role.arn
+  node_role_arn   =  var.node_role_arn
   subnet_ids      = var.subnet_ids
 
   scaling_config {

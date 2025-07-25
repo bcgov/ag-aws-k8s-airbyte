@@ -1,0 +1,30 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: default
+  annotations:
+    # Specifies that the Ingress should use an AWS ALB.
+    kubernetes.io/ingress.class: "alb"
+    # Redirects HTTP traffic to HTTPS.
+    ingress.kubernetes.io/ssl-redirect: "true"
+    # Creates an internal ALB, which is only accessible within your VPC or through a VPN.
+    alb.ingress.kubernetes.io/scheme: internal
+    # Specifies the ARN of the SSL certificate managed by AWS ACM, essential for HTTPS.
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:elasticloadbalancing:xxxxxxxxxxxx
+    # Sets the idle timeout value for the ALB.
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=30
+    # [If Applicable] Specifies the VPC subnets and security groups for the ALB
+    alb.ingress.kubernetes.io/subnets:  'subnet-0b92c43f47d42a7a6, subnet-018ccdbbb34fdadaa'
+    alb.ingress.kubernetes.io/security-groups: sg-0773216fa87c80ad4
+spec:
+  rules:
+    - host: test.orkz18-tools.nimbus.cloud.gov.bc.ca
+      http:
+        paths:
+          - backend:
+              service:
+                name: airbyte-enterprise-airbyte-webapp-svc
+                port:
+                  number: 80
+            path: /
+            pathType: Prefix
