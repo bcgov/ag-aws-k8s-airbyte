@@ -26,7 +26,7 @@ resource "aws_db_instance" "this" {
 
 
   multi_az                = false
-  publicly_accessible     = false
+  publicly_accessible     = true
   skip_final_snapshot     = true
 
   tags = {
