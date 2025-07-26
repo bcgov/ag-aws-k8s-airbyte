@@ -32,7 +32,7 @@ dynamodb_table_name     = "terraform-lock-dev"             # if you made per-env
 
 ##### RDS config settings### 
 
-db_password    = "yourSuperSecretPassword123!"
+db_password    = "yourSuperSecretPassword123"
 db_name = "devrds"
 db_username = "devusers"
 db_instance_class = "db.t3.micro"
