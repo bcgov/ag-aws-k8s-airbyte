@@ -23,9 +23,9 @@ global:
   storage:
     type: "S3"
     bucket:
-      log: airbyte-pdems
-      state: airbyte-pdems
-      workloadOutput: airbyte-pdems
+      log: airbytes3test
+      state: airbytes3test
+      workloadOutput: airbytes3test
     s3:
       region: ca-central-1
       authenticationType: instanceProfile
