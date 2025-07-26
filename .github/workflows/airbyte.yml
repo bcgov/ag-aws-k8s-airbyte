@@ -47,7 +47,7 @@ jobs:
 
 
       - name: Update kube config
-        run: aws eks update-kubeconfig --name k8s-airbyte-sandbox --region ${{ vars.AWS_REGION }}
+        run: aws eks update-kubeconfig --name eks-dev --region ${{ vars.AWS_REGION }}
 
       - name: Set up Helm
         uses: azure/setup-helm@v3
