@@ -10,7 +10,7 @@ global:
     port: "5432"
     database: "devrds"
     user: "devusers"
-    passwordSecretKey: "yourSuperSecretPassword123!"
+    passwordSecretKey: "yourSuperSecretPassword123"
 
   edition: community
   airbyteUrl: http://127.0.0.1:8080
