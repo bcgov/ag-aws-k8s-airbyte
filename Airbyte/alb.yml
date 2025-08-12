@@ -1,30 +1,39 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: default
+  name: airbyte
+  namespace: airbyte
   annotations:
-    # Specifies that the Ingress should use an AWS ALB.
     kubernetes.io/ingress.class: "alb"
-    # Redirects HTTP traffic to HTTPS.
-    ingress.kubernetes.io/ssl-redirect: "true"
-    # Creates an internal ALB, which is only accessible within your VPC or through a VPN.
     alb.ingress.kubernetes.io/scheme: internal
-    # Specifies the ARN of the SSL certificate managed by AWS ACM, essential for HTTPS.
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:elasticloadbalancing:xxxxxxxxxxxx
-    # Sets the idle timeout value for the ALB.
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/ssl-redirect: '[{"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ca-central-1:828865617457:certificate/badaa740-773a-466e-9e0e-bee9ec2259e5
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/healthcheck-path: /bcgovhealthcheck
+    alb.ingress.kubernetes.io/healthcheck-port: 'traffic-port'
+    alb.ingress.kubernetes.io/group.name: airbyte-internal
+    alb.ingress.kubernetes.io/tags: "Public=True,Workload=airbyte"
     alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=30
-    # [If Applicable] Specifies the VPC subnets and security groups for the ALB
-    alb.ingress.kubernetes.io/subnets:  'subnet-0b92c43f47d42a7a6, subnet-018ccdbbb34fdadaa'
+    alb.ingress.kubernetes.io/subnets: subnet-0b92c43f47d42a7a6,subnet-018ccdbbb34fdadaa
     alb.ingress.kubernetes.io/security-groups: sg-0773216fa87c80ad4
 spec:
+  ingressClassName: alb
   rules:
-    - host: test.orkz18-tools.nimbus.cloud.gov.bc.ca
+    - host: http://127.0.0.1:8080
       http:
         paths:
-          - backend:
+          - path: /
+            pathType: Prefix
+            backend:
               service:
                 name: airbyte-enterprise-airbyte-webapp-svc
                 port:
                   number: 80
-            path: /
+          - path: /bcgovhealthcheck
             pathType: Prefix
+            backend:
+              service:
+                name: airbyte-enterprise-airbyte-webapp-svc
+                port:
+                  number: 80

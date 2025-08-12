@@ -2,6 +2,14 @@ postgresql:
   enabled: false
 
 global:
+  auth:
+    enabled: true
+    instanceAdmin:  
+      secretName: "airbyte-config-secrets" 
+      firstName: Nikhil
+      lastName: Maddikunta
+      emailSecretKey: "instance-admin-email"
+      passwordSecretKey: "instance-admin-password"
   database:
     # Use external RDS instance and reference credentials via secret
     secretName: "airbyte-config-secrets"
@@ -10,15 +18,15 @@ global:
     port: "5432"
     database: "devrds"
     user: "devusers"
-    passwordSecretKey: "yourSuperSecretPassword123"
+    passwordSecretKey: "database-password"
 
   edition: community
   airbyteUrl: http://127.0.0.1:8080
 
-  auth:
-    instanceAdmin:  
-      firstName: Nikhil
-      lastName: Maddikunta
+  # auth:
+  #   instanceAdmin:  
+  #     firstName: Nikhil
+  #     lastName: Maddikunta
 
   storage:
     type: "S3"
@@ -29,3 +37,8 @@ global:
     s3:
       region: ca-central-1
       authenticationType: instanceProfile
+
+# webapp:
+#   enabled: true
+#   service:
+#     type: LoadBalancer
