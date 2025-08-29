@@ -14,7 +14,7 @@ global:
     # Use external RDS instance and reference credentials via secret
     secretName: "airbyte-config-secrets"
 
-    host: "devrds.cfmmo0ocsk5d.ca-central-1.rds.amazonaws.com"
+    host: "database-host"
     port: "5432"
     database: "devrds"
     user: "devusers"
