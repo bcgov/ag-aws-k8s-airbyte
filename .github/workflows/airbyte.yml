@@ -62,11 +62,11 @@ jobs:
           
       - name: Fill in secrets
         run: |
-          sed -i -e "s|<PLACE_HOLDER_DB_PASSWORD>|${{ secrets.DBPASSWORD }}|g" Airbyte/secrets.yml
-          sed -i -e "s|<PLACE_HOLDER_DB_HOST>|${{ secrets.DBHOST }}|g" Airbyte/secrets.yml
-          sed -i -e "s|<PLACE_HOLDER_DB_PORT>|${{ secrets.DBPORT }}|g" Airbyte/secrets.yml
-          sed -i -e "s|<PLACE_ADMIN_EMAIL>|${{ secrets.ADMINEMAIL }}|g" Airbyte/secrets.yml
-          sed -i -e "s|<PLACE_ADMIN_PASSWORD>|${{ secrets.ADMINPASSWORD }}|g" Airbyte/secrets.yml
+          sed -i -e 's|<PLACE_HOLDER_DB_PASSWORD>/\"${{ secrets.DBPASSWORD }}\"/g' Airbyte/secrets.yml
+          sed -i -e 's|<PLACE_HOLDER_DB_HOST>/\"${{ secrets.DBHOST }}\"/g' Airbyte/secrets.yml
+          sed -i -e 's|<PLACE_HOLDER_DB_PORT>/\"${{ secrets.DBPORT }}\"/g' Airbyte/secrets.yml
+          sed -i -e 's|<PLACE_ADMIN_EMAIL>/\"${{ secrets.ADMINEMAIL }}\"/g' Airbyte/secrets.yml
+          sed -i -e 's|<PLACE_ADMIN_PASSWORD>/\"${{ secrets.ADMINPASSWORD }}\"/g' Airbyte/secrets.yml
 
       - name: Create Namespace if not exists
         run: |
