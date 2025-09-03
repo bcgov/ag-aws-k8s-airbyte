@@ -62,4 +62,4 @@ jobs:
         if: github.event.inputs.environment == 'dev' || github.event.inputs.environment == 'prod'
         run: |
           cd Terraform
-          terraform apply -auto-approve tfplan
+          terraform destroy -auto-approve
