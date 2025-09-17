@@ -60,22 +60,14 @@ jobs:
           chmod +x ./kubectl
           sudo mv ./kubectl /usr/local/bin/kubectl
           
-      # - name: Fill in secrets
-      #   run: |
-      #     sed -i -e 's|<PLACE_HOLDER_DB_PASSWORD>/\"${{ secrets.DBPASSWORD }}\"/g' Airbyte/secrets.yml
-      #     sed -i -e 's|<PLACE_HOLDER_DB_HOST>/\"${{ secrets.DBHOST }}\"/g' Airbyte/secrets.yml
-      #     sed -i -e 's|<PLACE_HOLDER_DB_PORT>/\"${{ secrets.DBPORT }}\"/g' Airbyte/secrets.yml
-      #     sed -i -e 's|<PLACE_ADMIN_EMAIL>/\"${{ secrets.ADMINEMAIL }}\"/g' Airbyte/secrets.yml
-      #     sed -i -e 's|<PLACE_ADMIN_PASSWORD>/\"${{ secrets.ADMINPASSWORD }}\"/g' Airbyte/secrets.yml
-
       - name: Create Namespace if not exists
         run: |
           kubectl get ns airbyte || kubectl create ns airbyte
 
-      # - name: Deploying secrets
-      #   run: |
-      #     cd Airbyte
-      #     kubectl apply -f secrets.yml -n airbyte
+      - name: Deploying secrets
+        run: |
+          cd Airbyte
+          kubectl apply -f external-secret.yaml -n airbyte
 
       - name: Add Airbyte Helm Chart repository
         run: |
@@ -88,12 +80,13 @@ jobs:
           helm upgrade --install airbyte airbyte/airbyte --namespace airbyte --values Airbyte/values.yml --timeout 10m0s
 
 
-      # - name: Deploy ALB 
-      #   run: |
-      #     kubectl apply -f Airbyte/alb.yml -n airbyte
+      - name: Deploy ALB 
+        run: |
+          cd Airbyte
+          kubectl apply -f Airbyte/alb.yml -n airbyte
 
 
-      # - name: Wait for Airbyte to be deployed
-      #   run: |
-      #     kubectl rollout status deployment/airbyte -n airbyte
+      - name: Wait for Airbyte to be deployed
+        run: |
+          kubectl rollout status deployment/airbyte -n airbyte
 
